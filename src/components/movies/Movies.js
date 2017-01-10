@@ -1,15 +1,22 @@
 import React from 'react';
 import axios from 'axios';
+import PouchDB from 'pouchdb';
 
 export default class Random extends React.Component{
   constructor(props){
     super(props);
     this.state = {results:[]};
     this.search = this.search.bind(this)
+    this.clear = this.clear.bind(this);
     this.add = this.add.bind(this)
+    this.db = new PouchDB('Movies')
   }
 
+ clear(){
+    this.setState({results: []});
+  }
   search(){
+    
       const query = this.query.value;
       const url = `http://www.omdbapi.com/?s=${query}&page=1`
       axios.get(url)
@@ -19,7 +26,7 @@ export default class Random extends React.Component{
         })
   }
   add(event){
-      debugger;
+      debugger
   }
 
   render(){
@@ -31,6 +38,7 @@ export default class Random extends React.Component{
                 <label>Search</label>
                 <input ref={node => this.query = node} type="text" />
                 <button onClick={this.search} className="btn btn-info btn-sm">Search</button>
+                <button onClick={this.clear} className="btn btn-danger btn-sm">Clear</button>
             </div>
              <table className="table table-striped">
                 
